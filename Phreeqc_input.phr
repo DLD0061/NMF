@@ -1,0 +1,139 @@
+DATABASE c:\phreeqc\database\PHREEQC.dat 
+
+TITLE 
+
+Solution 1
+pressure 100
+temp 75
+pH 6.92
+-density 1 calc
+-units mol/kgw
+Na 0.5 charge
+Cl 0.5
+
+   
+EQUILIBRIUM_PHASES 1
+Quartz 0 51.06
+K-Feldspar 0 2.895         
+#Hematite 0 3.537  
+Barite  0    3.537    
+Pyrite 0 3.826             
+Dolomite 0 1.457           
+Anhydrite 0 1.063         
+Calcite 0 1.375           
+Halite 0 0.961             
+Illite 0 0.358             
+Chlorite(14A) 0 0.0495     
+FeS(ppt)   0  0
+   
+Save Solution 1
+Save Equilibrium_Phases 1
+END     
+
+Use Solution 1
+Use Equilibrium_Phases 1
+GAS_PHASE
+-fixed_pressure
+-pressure 100
+CO2(g) 0
+CH4(g) 0
+H2(g) 0
+H2S(g) 0
+H2O(g) 0
+REACTION 1
+H2 1
+50 in 50 steps
+Selected_output
+-file output.txt
+-reaction true
+-pH true 
+-pe true 
+-equilibrium_phases Quartz K-Feldspar Barite Pyrite Dolomite Anhydrite \         
+ Calcite  Illite    Chlorite(14A) FeS(ppt)
+ -totals  Fe Fe(2)  Fe(3)  H(0) Ca Mg Ba Si Al K S(6) S(-2) H2S
+-activities H+ Ca+2 CO2 HCO3- CO3-2
+-gases   H2(g)   H2S(g) 
+
+
+  
+USER_GRAPH 1
+    -headings               rxn Quartz K-Feldspar Barite Pyrite \         
+Dolomite Anhydrite  Calcite  Illite   Pyrrhotite 
+    -axis_titles            "H2, moles added" "Moles"
+    -axis_scale x_axis      auto auto
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+10 GRAPH_X RXN
+20 GRAPH_Y EQUI("Quartz")/10, EQUI("K-Feldspar"), EQUI("Barite"), \
+EQUI("Pyrite"), EQUI("Dolomite"), EQUI("Anhydrite"), EQUI("Calcite"), \
+EQUI("Halite"), EQUI("Illite"), EQUI("Chlorite(14A)"), EQUI("FeS(ppt)")
+# 30 graph_sy -LA("e-"), -LA("H+")
+  -end
+
+USER_GRAPH 2
+    -headings               rxn pe pH
+    -axis_titles            "H2, moles added" "pH, pe" ""
+    -axis_scale x_axis      auto auto
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+10 GRAPH_X RXN
+20 GRAPH_Y -LA("e-"), -LA("H+")
+  -end  
+USER_GRAPH 3
+    -headings               rxn  Ca Mg Ba Si  K S
+    -axis_titles            "H2, moles added" "Moles"
+    -axis_scale x_axis      auto auto
+    -initial_solutions      false
+    -connect_simulations    true
+    -plot_concentration_vs  x
+  -start
+10 GRAPH_X RXN
+20 GRAPH_Y  tot('Ca'), tot('Mg'), tot('Ba'), \
+tot('Si'),tot('K'), tot('S(6)')
+100 REM
+  -end
+END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
